@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Like Goal — Pro Final</title>
+
+<style>
+:root{
+  --bg: rgba(255,255,255,0);
+  --panel-bg: linear-gradient(90deg,#00ffaa,#0099ff); /* ✅ FONDO VERDE–AZUL FUERTE */
+  --text:#000000;
+  --bar-bg:#d9d9d9;
+  --bar-fill:#ff1744;
+  --border:#000000;
+  --width:720px;
+  --height:70px;
+  --goal:100000;
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  background:var(--bg);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.wrap{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  padding:12px;
+}
+
+.like-panel{
+  width:var(--width);
+  max-width:95%;
+  height:var(--height);
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:10px 16px;
+  background:var(--panel-bg);
+  border-radius:12px;
+  border:3px solid var(--border);   /* ✅ MARCO NEGRO */
+  box-shadow:0 6px 15px rgba(0,0,0,0.20);
+}
+
+/* CORAZÓN */
+.heart-box{
+  width:52px;
+  height:52px;
+  border-radius:10px;
+  background:#fff;
+  border:2px solid #000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.heart{
+  width:36px;
+  height:36px;
+  animation: spin 3s linear infinite, pulse 1s ease-in-out infinite;
+}
+
+@keyframes spin{
+  0%{transform:rotateX(0deg)}
+  100%{transform:rotateX(360deg)}
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+}
+
+/* TEXTO */
+.center{flex:1}
+
+.labels{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:6px;
+}
+
+.title{
+  font-size:15px;
+  font-weight:900;
+  color:#000;
+  text-shadow:0 1px 2px #888; /* sombra gris */
+}
+
+.goal{
+  font-size:14px;
+  color:#000;
+  font-weight:bold;
+}
+
+/* BARRA */
+.bar-back{
+  width:100%;
+  height:14px;
+  background:var(--bar-bg);
+  border-radius:20px;
+  overflow:hidden;
+  border:1px solid #000;
+}
+
+.bar-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#ff1744,#ff5252);
+  transition:width 0.5s ease;
+}
+
+/* DERECHA */
+.right{
+  width:90px;
+  text-align:right;
+}
+
+.percent{
+  font-size:14px;
+  font-weight:bold;
+  color:#000;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="like-panel">
+    
+    <div class="heart-box">
+      <svg class="heart" viewBox="0 0 24 24">
+        <path fill="#ff0000" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6.01 4.01 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 17.99 4 20 6.01 20 8.5c0 3.78-3.4 6.86-8.55 11.54z"/>
+      </svg>
+    </div>
+
+    <div class="center">
+      <div class="labels">
+        <div class="title">Like Goal</div>
+        <div class="goal" id="goalText">0 / 100k</div>
+      </div>
+      
+      <div class="bar-back">
+        <div class="bar-fill" id="fillBar"></div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="percent" id="percentText">0%</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const GOAL = 100000;
+let likes = 0;
+
+function updateUI(){
+  const percent = Math.min(100,(likes/GOAL)*100);
+  document.getElementById("fillBar").style.width = percent + "%";
+  document.getElementById("goalText").innerText = likes.toLocaleString() + " / " + GOAL.toLocaleString();
+  document.getElementById("percentText").innerText = Math.round(percent) + "%";
+}
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "l"){
+    likes += 1000;
+    updateUI();
+  }
+  if(e.key === "k"){
+    likes = Math.max(0, likes - 500);
+    updateUI();
+  }
+});
+
+updateUI();
+</script>
+
+</body>
+</html>
